@@ -6,10 +6,10 @@ node_js:
 matrix:
   include:
     - os: linux
-      script: npm run lint
+      env: NPM_COMMAND=lint
   include:
     - os: linux
-      script: npm run test
+      env: NPM_COMMAND=test
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test ; fi
@@ -20,4 +20,5 @@ before_install:
 notifications:
   email: false
 
+script: npm run $NPM_COMMAND
 after_success: npm run coveralls
