@@ -7,9 +7,13 @@ matrix:
   include:
     - os: linux
       env: NPM_COMMAND=lint
-  include:
     - os: linux
       env: NPM_COMMAND=test
+    - os: osx
+      env: NPM_COMMAND=test
+      branches:
+        only:
+          - master
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test ; fi
