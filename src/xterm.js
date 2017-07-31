@@ -1941,9 +1941,6 @@ Terminal.prototype.resize = function(x, y) {
     ch = [this.defAttr, ' ', 1]; // does xterm use the default attr?
     i = this.buffer.lines.length;
     while (i--) {
-      if (this.buffer.lines.get(i) === undefined) {
-        this.buffer.lines.set(i, this.blankLine());
-      }
       while (this.buffer.lines.get(i).length < x) {
         this.buffer.lines.get(i).push(ch);
       }
@@ -2279,7 +2276,8 @@ Terminal.prototype.reverseIndex = function() {
     // possibly move the code below to term.reverseScroll();
     // test: echo -ne '\e[1;1H\e[44m\eM\e[0m'
     // blankLine(true) is xterm/linux behavior
-    this.buffer.lines.shiftElements(this.buffer.y + this.buffer.ybase, this.rows - 1, 1);
+    var yStart = this.buffer.y + this.buffer.ybase;
+    this.buffer.lines.shiftElements(ystart, this.rows - ystart - 1, 1);
     this.buffer.lines.set(this.buffer.y + this.buffer.ybase, this.blankLine(true));
     this.updateRange(this.buffer.scrollTop);
     this.updateRange(this.buffer.scrollBottom);
